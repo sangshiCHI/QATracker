@@ -1,22 +1,22 @@
 {
-  "tag_name": "v0.1.2",
-  "draft": false,
-  "prerelease": false,
   "assets": [
     {
+      "size": 86944181,
       "name": "QATK.zip",
-      "size": 86943876,
-      "executable_digest": "sha256:20807343762f2f3f084831784bc7b6e386e8dc83734529b60ff94413eadf6651",
-      "executable_size": 209791904,
-      "browser_download_url": "https://gitee.com/sangshichi/QATracker/releases/download/v0.1.2/QATK.zip",
-      "digest": "sha256:c63b9d523125083a9de3fd7a996ab92705a35c9b2490a432723d3b26b1f63f08"
+      "executable_digest": "sha256:033b31987cb09e832ba99cafc83f652d03cc9faae1c38763399e2bfa12e1c927",
+      "browser_download_url": "https://gitee.com/sangshichi/QATracker/releases/download/v0.1.3/QATK.zip",
+      "executable_size": 209796000,
+      "digest": "sha256:10206bfba32f75da5950066b9eeb7db47c3858615092a5beda2f6469560204fe"
     },
     {
       "name": "QATK.exe",
-      "size": 209791904,
-      "digest": "sha256:20807343762f2f3f084831784bc7b6e386e8dc83734529b60ff94413eadf6651",
-      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.2/QATK.exe"
+      "size": 209796000,
+      "digest": "sha256:033b31987cb09e832ba99cafc83f652d03cc9faae1c38763399e2bfa12e1c927",
+      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.3/QATK.exe"
     }
   ],
-  "body": "QATK 0.1.2 更新测试版\n\n- 游戏和存档支持自动查找，也可以浏览文件手动选择。\n- 更新提示显示新版本号和更新内容，确认后才下载和升级。\n- 增加国内更新来源，下载完成后核对文件完整性。\n- 保留原来的统计记录和设置。\n- 中文 wiki 说明重新整理，保留数值、表格和查询功能。\n- 补充等级差、离线进度、附魔等章节搜索，以及品质和家具风格关键词。\n- wiki 图标与插图可离线查看，改用有许可的同类示意图。\n- 增加匿名在线软件数量及大致地区汇总，不上传游戏账号、存档或装备。\n\n这是更新流程测试版，暂不做正式上线宣传。\n统计按游戏保存刷新，不承诺未验证场景下的完整准确率。\n"
+  "prerelease": false,
+  "tag_name": "v0.1.3",
+  "draft": false,
+  "body": "QATK 0.1.3 更新测试版\n\n- 修复国内更新提示可能无法显示的问题。\n- 兼容下载服务的正常跳转，仍会核对下载来源和文件完整性。\n- 某个更新来源暂不可用时，会继续检查其他来源。\n- 保留已有统计记录和设置。\n- 同时包含 0.1.2 的自动查找、中文 wiki 章节搜索、品质与家具风格关键词。\n- 图片和资料可离线查看，使用有许可的同类示意图。\n- 保留匿名在线数量和大致地区汇总，不上传游戏账号、存档或装备。\n\n这是更新流程测试版，暂不做正式上线宣传。\n统计随游戏保存刷新，不承诺未验证场景下的完整准确率。\n"
 }
