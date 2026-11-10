@@ -15,7 +15,7 @@
       "name": "QATK.exe",
       "size": 209791904,
       "digest": "sha256:20807343762f2f3f084831784bc7b6e386e8dc83734529b60ff94413eadf6651",
-      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/untagged-d7df26d15c21afbbc858/QATK.exe"
+      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.2/QATK.exe"
     }
   ],
   "body": "QATK 0.1.2 更新测试版\n\n- 游戏和存档支持自动查找，也可以浏览文件手动选择。\n- 更新提示显示新版本号和更新内容，确认后才下载和升级。\n- 增加国内更新来源，下载完成后核对文件完整性。\n- 保留原来的统计记录和设置。\n- 中文 wiki 说明重新整理，保留数值、表格和查询功能。\n- 补充等级差、离线进度、附魔等章节搜索，以及品质和家具风格关键词。\n- wiki 图标与插图可离线查看，改用有许可的同类示意图。\n- 增加匿名在线软件数量及大致地区汇总，不上传游戏账号、存档或装备。\n\n这是更新流程测试版，暂不做正式上线宣传。\n统计按游戏保存刷新，不承诺未验证场景下的完整准确率。\n"
