@@ -17,13 +17,19 @@ internal static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        var player=StartupDiagnostics.IsPlayer(args);
         try
         {
+            if(player&&!OperatingSystem.IsWindowsVersionAtLeast(10,0,19041))
+            {StartupDiagnostics.Notify("此版本需要 Windows 10（系统内部版本 19041 或以上）或 Windows 11 的64位环境。未修改统计记录。");return 1;}
             if(Option(args,"--apply-update") is string updatePlan)return SoftwareUpdate.Apply(updatePlan);
             if(args.Contains("--self-test")) return SelfTests.Run();
             var output=Option(args,"--output") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "QuestAwayCompanion","Diagnostics",DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"));
-            var exe=Option(args,"--exe") ?? Native.Processes("QuestAway.exe").FirstOrDefault(p=>p.Exe is not null)?.Exe ?? "";
+            // Do not enumerate other processes before normal startup's guarded runtime loop.
+            var exe=Option(args,"--exe")??"";
+            if(exe.Length==0&&args.Any(a=>a is "--probe" or "--window-auto" or "--watch-activity" or "--capture" or "--diagnostics" or "--ui-smoke" or "--probe-afk-fields"))
+                exe=Native.Processes("QuestAway.exe").FirstOrDefault(p=>p.Exe is not null)?.Exe??"";
             if(args.Contains("--self-test-updates"))return UpdateVerification.Run(output).GetAwaiter().GetResult();
             if(args.Contains("--self-test-online"))return OnlinePresenceVerification.Run(output).GetAwaiter().GetResult();
             if(args.Contains("--self-test-afk"))return AfkVerification.Run(new Application(),output);
@@ -130,6 +136,7 @@ internal static class Program
         }
         catch(Exception e)
         {
+            if(player)StartupDiagnostics.Report(e);
             Console.Error.WriteLine(JsonSerializer.Serialize(Error(e),Json));return 1;
         }
     }

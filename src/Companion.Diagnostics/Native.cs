@@ -113,21 +113,28 @@ internal static class Native
             Client=new(origin.X,origin.Y,client.Right,client.Bottom)};
     }
 
-    public static GameWindow? AutomaticWindow(string exe)
+    public static GameWindow? AutomaticWindow(string exe,ProcessObservation? target=null)
     {
-        var all=Windows(exe).Where(w=>w.Visible&&!w.Cloaked&&w.Client.Width>0&&w.Client.Height>0).ToArray();
+        var all=Windows(exe).Where(w=>w.Visible&&!w.Cloaked&&w.Client.Width>0&&w.Client.Height>0&&MatchesTarget(w,target)).ToArray();
         // Process.MainWindowHandle can itself point at an owned popup.
         var handles=all.Select(Handle).ToHashSet();
         all=all.Where(w=>!handles.Contains(GetWindow(Handle(w),4))).ToArray();
         // Follow the game's owner, not its foreground log/settings popup.
         var foreground=$"0x{GetAncestor(GetForegroundWindow(),3):X}";
-        var main=Processes(exe).FirstOrDefault(p=>p.Exe is not null&&p.Exe.Equals(exe,StringComparison.OrdinalIgnoreCase))?.MainWindow;
-        return ChooseWindow(all,foreground,main);
+        var main=target?.MainWindow??Processes(exe).FirstOrDefault(p=>p.Exe is not null&&p.Exe.Equals(exe,StringComparison.OrdinalIgnoreCase))?.MainWindow;
+        return ChooseWindow(all,foreground,main,target);
     }
-    internal static GameWindow? ChooseWindow(GameWindow[] all,string? foreground,string? main)=>
-        all.FirstOrDefault(w=>w.Hwnd.Equals(foreground,StringComparison.OrdinalIgnoreCase))??
-        all.FirstOrDefault(w=>w.Hwnd.Equals(main,StringComparison.OrdinalIgnoreCase))??
-        all.OrderByDescending(w=>(long)w.Client.Width*w.Client.Height).FirstOrDefault();
+    static bool MatchesTarget(GameWindow window,ProcessObservation? target)=>target is null||
+        target.Error is null&&target.StartUtc is not null&&window.Pid==target.Pid&&window.StartUtc==target.StartUtc&&
+        string.Equals(window.Exe,target.Exe,StringComparison.OrdinalIgnoreCase);
+    internal static GameWindow? ChooseWindow(GameWindow[] all,string? foreground,string? main,ProcessObservation? target=null)
+    {
+        // A foreground window from another instance must never change the session's game owner.
+        var eligible=all.Where(w=>MatchesTarget(w,target)).ToArray();
+        return eligible.FirstOrDefault(w=>w.Hwnd.Equals(foreground,StringComparison.OrdinalIgnoreCase))??
+            eligible.FirstOrDefault(w=>w.Hwnd.Equals(main,StringComparison.OrdinalIgnoreCase))??
+            eligible.OrderByDescending(w=>(long)w.Client.Width*w.Client.Height).FirstOrDefault();
+    }
     public static void OverlayStyle(nint ownHwnd,bool clickThrough)
     {
         GetWindowThreadProcessId(ownHwnd,out var pid);

@@ -113,6 +113,27 @@ internal static class AfkVerification
                 using(var cancelled=new CancellationTokenSource()){cancelled.Cancel();try{await realCache.Read(validPath,true,cancelled.Token);checks["cache cancellation preserved"]=false;}catch(OperationCanceledException){checks["cache cancellation preserved"]=true;}}
                 using var me=Process.GetCurrentProcess();var handle=new WindowInteropHelper(fixture).Handle;
                 var target=Native.Windows(me.MainModule!.FileName).Single(w=>Native.Handle(w)==handle);var original=target.Client;
+                var connectionChosen=false;
+                var picker=new GameConnectionWindow(validPath,_=>connectionChosen=true){ShowActivated=false};
+                var observation=new ProcessObservation(target.Pid,target.StartUtc,target.Exe,target.Hwnd,null);
+                picker.UpdateCandidates([observation,observation with{Pid=int.MaxValue}]);picker.Show();picker.UpdateLayout();
+                IEnumerable<DependencyObject> Nodes(DependencyObject root)
+                {
+                    yield return root;
+                    foreach(var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())foreach(var node in Nodes(child))yield return node;
+                }
+                var list=Nodes(picker).OfType<ListBox>().Single();var confirmation=Nodes(picker).OfType<CheckBox>().Single();
+                var connect=Nodes(picker).OfType<Button>().Single(b=>b.Content as string=="连接这一个");
+                checks["multi-instance choice lists candidates without auto-connecting"]=list.Items.Count==2&&!connect.IsEnabled&&!connectionChosen;
+                list.SelectedIndex=0;checks["instance selection alone does not confirm save ownership"]=!connect.IsEnabled;
+                confirmation.IsChecked=true;checks["explicit instance plus save confirmation enables connection"]=connect.IsEnabled;
+                picker.UpdateCandidates([observation with{MainWindow="0x999"},observation with{Pid=int.MaxValue,MainWindow="0x888"}]);
+                checks["main HWND metadata refresh does not reset selected process or confirmation"]=confirmation.IsChecked==true&&connect.IsEnabled&&list.SelectedIndex==0;
+                WikiUi.SaveOwnWindow(picker,output,"connection-choice-synthetic.png");
+                connect.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                for(var i=0;i<40&&!connectionChosen;i++)await Task.Delay(50);
+                checks["confirmed owned process connects with readable synthetic save"]=connectionChosen&&!picker.IsVisible;
+                picker.Close();
                 var stats=new StatisticsEngine(null,false,false,true);stats.Push(first);stats.Push(second);
                 var view=new RuntimeView("tracking",stats.State(),DateTimeOffset.UtcNow.AddHours(-2),target,true){Afk=tracker.Current};
                 var uiSettings=new CompanionSettings();overlay=new(uiSettings);overlay.Update(view);await Task.Delay(200);

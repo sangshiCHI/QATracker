@@ -16,7 +16,7 @@ internal static class AppResources
         return name.StartsWith("zh",StringComparison.OrdinalIgnoreCase)?(name.Contains("TW")||name.Contains("HK")||name.Contains("Hant")?"zh-Hant":"zh-Hans"):
             name.StartsWith("ja")?"ja":name.StartsWith("es")?"es":"en";
     }
-    public static string Text(string key)=>Ui.RootElement.GetProperty("text").TryGetProperty(key,out var values)?values[Math.Max(0,Array.IndexOf(Languages,Language))].GetString()!:Text("unknown");
+    public static string Text(string key)=>Ui.RootElement.GetProperty("text").TryGetProperty(key,out var values)?values[Math.Max(0,Array.IndexOf(Languages,Language))].GetString()!.Replace("{version}",SoftwareUpdate.DisplayVersion,StringComparison.Ordinal):Text("unknown");
     public static string Color(string quality)=>Quality.RootElement.GetProperty("qualities").EnumerateArray().First(q=>q.GetProperty("id").GetString()==quality).GetProperty("nativeColor").GetString()!;
     public static IReadOnlyDictionary<string,string> ActivityQualityLabels=>Quality.RootElement.GetProperty("qualities").EnumerateArray().ToDictionary(q=>q.GetProperty("zhHans").GetString()!,q=>q.GetProperty("id").GetString()!);
     public static string ItemName(ObservedItem item)=>Items.RootElement.GetProperty("names").TryGetProperty(item.BaseType,out var label)?label.GetProperty(Language).GetString()!:item.BaseType;

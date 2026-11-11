@@ -173,7 +173,7 @@ internal sealed class OverlayWindow:Window
             wikiLauncher.Follow(x,y,width,scale*dpi,settings.Opacity);
             if(settingsLauncher is null){settingsLauncher=new WikiLauncherWindow(settingsButton:true){Owner=this};settingsLauncher.Requested+=()=>SettingsRequested?.Invoke();}
             settingsLauncher.Follow(x,y,width,scale*dpi,settings.Opacity,height);
-            if(afkLauncher is null){afkLauncher=new WikiLauncherWindow(afkButton:true){Owner=this};afkLauncher.Requested+=async()=>{try{await ToggleAfk();}catch(Exception e)when(e is InvalidOperationException or System.ComponentModel.Win32Exception){MessageBox.Show("窗口状态已变化，未能切换挂机模式。可从托盘重试。","QATK 0.1");}};}
+            if(afkLauncher is null){afkLauncher=new WikiLauncherWindow(afkButton:true){Owner=this};afkLauncher.Requested+=async()=>{try{await ToggleAfk();}catch(Exception e)when(e is InvalidOperationException or System.ComponentModel.Win32Exception){MessageBox.Show(CompanionShell.OperationFailureText(e),"QATK "+SoftwareUpdate.DisplayVersion);}};}
             afkLauncher.SetAfk(false);afkLauncher.Follow(x,y,width,scale*dpi,settings.Opacity,height);
         }
         catch(System.ComponentModel.Win32Exception){Hide();}
@@ -183,25 +183,27 @@ internal sealed class OverlayWindow:Window
         if(afkTransition||closed)return;
         if(IsAfk){RestoreAfk();Draw();Follow();return;}
         var target=current is null?null:Native.Follow(current);var bounds=surface??target?.Client;
+        if(target is null)throw new InvalidOperationException(view?.Status=="multiple_game"?"multiple_game":"game_window_unavailable");
         if(target is null||target.ClassName=="Tauri Window"&&surface is null||bounds is not{Width:>=80,Height:>=40}||target.Minimized||!Native.SameProcess(target))throw new InvalidOperationException("game_surface_missing");
-        afkTransition=true;afkTarget=target;afkBounds=bounds;hud=null;
+        afkTransition=true;
+        try
+        {
+        afkTarget=target;afkBounds=bounds;hud=null;
         afkHidden=false;MinWidth=240;MinHeight=150;ResizeMode=ResizeMode.CanResize;
         wikiLauncher?.Hide();settingsLauncher?.Hide();afkLauncher?.Hide();
         CompositionTarget.Rendering-=OnRendering;follow.Interval=TimeSpan.FromSeconds(1);AfkModeChanged?.Invoke(true);
         minimizedByUs.Clear();minimizedByUs.Add(target);
         if(surfaceTracker.FollowerWindow(target) is {Visible:true,Minimized:false} follower&&follower.Hwnd!=target.Hwnd)minimizedByUs.Add(follower);
-        try
-        {
             foreach(var window in minimizedByUs)
                 if(Native.WatchRestore(window,()=>{if(restoreQueued||closed||!IsAfk)return;restoreQueued=true;Dispatcher.BeginInvoke(DispatcherPriority.Render,new Action(()=>{restoreQueued=false;if(!closed&&IsAfk)FollowAfk();}));}) is{} watch)restoreWatches.Add(watch);
             afkPanel.LayoutTransform=new ScaleTransform(settings.Scale,settings.Scale);Draw();var own=new WindowInteropHelper(this).Handle;if(own!=0)Native.OverlayStyle(own,false);foreach(var window in minimizedByUs)Native.SetMinimized(window,true);
             for(var i=0;i<15&&!Native.IsIconic(Native.Handle(target));i++)await Task.Delay(100);
             if(closed)return;
             if(!Native.IsIconic(Native.Handle(target)))throw new InvalidOperationException("game_minimize_not_confirmed");
+            Follow();
         }
         catch{RestoreAfk();if(!closed){Draw();Follow();}throw;}
         finally{afkTransition=false;}
-        Follow();
     }
     internal void RestoreAfk()
     {

@@ -103,6 +103,14 @@ internal static class UpdateVerification
         File.WriteAllText(target+".update-new","unrelated");checks["staging conflict never overwrites old file"]=await Fails(()=>{SoftwareUpdate.ReplaceFile(payload,target,backup);return Task.CompletedTask;})&&File.ReadAllText(target)=="old"&&File.ReadAllText(target+".update-new")=="unrelated";
         checks["invalid helper plan cannot replace files"]=SoftwareUpdate.Apply(Path.Combine(output,"not-a-job.json"))==1&&File.ReadAllText(target)=="old";
         checks["normal update job remains backward readable without AFK"]=System.Text.Json.JsonSerializer.Deserialize<UpdateJob>("{\"Target\":\"QATK.exe\",\"TargetSha256\":\"old\",\"Payload\":\"QATK.new\",\"PayloadSha256\":\"new\",\"ParentPid\":1,\"ParentStartTicks\":1}")?.Afk is null;
+        var process=new ProcessObservation(123,new DateTime(2026,1,1,0,0,0,DateTimeKind.Utc),Path.Combine(output,"game.exe"),"0x10",null);
+        var connection=new GameConnectionChoice(process,Path.Combine(output,"selected-save.json"));
+        checks["valid selected connection can travel in private update plan"]=SoftwareUpdate.ValidConnection(connection);
+        checks["legacy update without selected connection remains valid"]=SoftwareUpdate.ValidConnection(null);
+        checks["relative save path cannot travel in update plan"]=!SoftwareUpdate.ValidConnection(connection with{SavePath="relative.json"});
+        checks["unknown selected process lifetime cannot travel in plan"]=!SoftwareUpdate.ValidConnection(connection with{Process=process with{StartUtc=null}});
+        var selectedJob=new UpdateJob("target","old","payload","new",1,1,Connection:connection);
+        checks["selected source and process survive update serialization"]=System.Text.Json.JsonSerializer.Deserialize<UpdateJob>(System.Text.Json.JsonSerializer.Serialize(selectedJob))?.Connection==connection;
         checks["resume plan outside private update directory rejected"]=await Fails(()=>{SoftwareUpdate.ReadResume(Path.Combine(output,"not-a-job.json"));return Task.CompletedTask;});
         var store=new SessionStore(Path.Combine(output,"update-lifecycle.sqlite3"));var settings=new CompanionSettings{GameExe=own};
         var firstTick=new TaskCompletionSource();var runtime=new CompanionRuntime(settings,store,_=>firstTick.TrySetResult(),true);runtime.TogglePause();runtime.Start();

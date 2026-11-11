@@ -4,7 +4,8 @@ using System.Text.Json;
 namespace Companion.Diagnostics;
 
 internal record RuntimeView(string Status,StatisticsState State,DateTimeOffset StartTime,GameWindow? Window,bool Synthetic)
-{public AfkTelemetry? Afk{get;init;}public bool WaveRulesVerified{get;init;}}
+{public AfkTelemetry? Afk{get;init;}public bool WaveRulesVerified{get;init;}public ProcessObservation[] Candidates{get;init;}=[];}
+internal record GameConnectionChoice(ProcessObservation Process,string SavePath);
 
 internal sealed class CompanionRuntime
 {
@@ -17,6 +18,15 @@ internal sealed class CompanionRuntime
     readonly AfkTracker afk=new();
     bool waveRulesVerified;
     readonly AfkReadCache saveCache=new();volatile bool lowResourceMode;
+    GameConnectionChoice? requested;string? selectedSave;GameConnectionChoice? activeConnection;
+    internal GameConnectionChoice? Connection=>Volatile.Read(ref activeConnection);
+    internal void SelectGame(GameConnectionChoice choice)=>Interlocked.Exchange(ref requested,choice);
+    internal static ProcessObservation[] ConnectionCandidates(ProcessObservation[] observed,string configured)=>observed.Where(p=>
+        p.Error is null&&p.StartUtc is not null&&!string.IsNullOrWhiteSpace(p.Exe)&&
+        (string.IsNullOrWhiteSpace(configured)||string.Equals(p.Exe,configured,StringComparison.OrdinalIgnoreCase))).ToArray();
+    internal static bool MatchesChoice(ProcessObservation process,GameConnectionChoice choice)=>
+        process.Error is null&&process.StartUtc is not null&&process.Pid==choice.Process.Pid&&process.StartUtc==choice.Process.StartUtc&&
+        string.Equals(process.Exe,choice.Process.Exe,StringComparison.OrdinalIgnoreCase)&&Path.IsPathFullyQualified(choice.SavePath)&&File.Exists(choice.SavePath);
     public bool LowResourceMode{get=>lowResourceMode;set=>lowResourceMode=value;}
     public Task? Completion{get;private set;}
     public CompanionRuntime(CompanionSettings settings,SessionStore store,Action<RuntimeView> update,bool synthetic=false)
@@ -27,7 +37,7 @@ internal sealed class CompanionRuntime
     public void StopForUpdate(){updating=true;stop.Cancel();}
     async Task Loop()
     {
-        ProcessObservation? game=null;GameWindow? lastWindow=null;var start=DateTimeOffset.UtcNow;var status="waiting_game";SampleDelta? pending=null;bool dirty=false;
+        ProcessObservation? game=null;GameWindow? lastWindow=null;var start=DateTimeOffset.UtcNow;var status="waiting_game";SampleDelta? pending=null;bool dirty=false;bool selectionRequired=false;
         ActivityEvent[] pendingActivity=[];Task<ActivitySnapshot>? activityRead=null;string? activitySession=null;
         var nextActivity=DateTimeOffset.MinValue;var activityStarted=DateTimeOffset.MinValue;int epoch=0,readEpoch=0;
         void Persist(){if(!dirty)return;store.Save(sessionId!,stats,pending,pendingActivity);dirty=false;pending=null;pendingActivity=[];}
@@ -37,15 +47,30 @@ internal sealed class CompanionRuntime
             while(!stop.IsCancellationRequested)
             {
                 GameWindow? window=null;
+                ProcessObservation[] candidates=[];
                 try
                 {
                     var exe=game?.Exe??GameDiscovery.FindExe(settings.GameExe);
-                    var observed=exe is null?[]:Native.Processes(exe);
-                    var processes=observed.Where(p=>p.Exe?.Equals(exe,StringComparison.OrdinalIgnoreCase)==true&&p.StartUtc is not null).ToArray();
-                    if(game is null&&processes.Length>1)status="multiple_game";
-                    else if(game is null&&processes.Length==1)
+                    var observed=Native.Processes(exe??"QuestAway.exe");
+                    var processes=ConnectionCandidates(observed,game?.Exe??settings.GameExe);
+                    if(game is null)
                     {
-                        var candidate=processes[0];var key=$"{(synthetic?"synthetic":"real")}:{candidate.Pid}:{candidate.StartUtc!.Value.Ticks}";
+                        if(processes.Length>1)selectionRequired=true;
+                        candidates=processes;
+                        ProcessObservation? candidate=null;
+                        var choice=Volatile.Read(ref requested);
+                        if(choice is not null)
+                        {
+                            selectionRequired=true;
+                            candidate=processes.FirstOrDefault(p=>MatchesChoice(p,choice));
+                            if(candidate is null)Interlocked.CompareExchange(ref requested,null,choice);
+                            else selectedSave=choice.SavePath;
+                        }
+                        else if(!selectionRequired&&processes.Length==1)candidate=processes[0];
+                        if(candidate is null)status=processes.Length==0?"waiting_game":"multiple_game";
+                        else
+                        {
+                        var key=$"{(synthetic?"synthetic":"real")}:{candidate.Pid}:{candidate.StartUtc!.Value.Ticks}";
                         var session=store.Begin(key,false,false,!synthetic);sessionId=session.SessionId;start=session.StartTime;
                         afk.Reset();
                         waveRulesVerified=AfkWaveRules.MatchesExe(candidate.Exe!);
@@ -54,6 +79,9 @@ internal sealed class CompanionRuntime
                         // A persisted sampling session survived an unobserved process interruption.
                         if(!synthetic&&restored?.Previous is not null){stats.SaveUnavailable();dirty=true;}
                         game=candidate;
+                        Volatile.Write(ref activeConnection,new GameConnectionChoice(candidate,SavePath()));
+                        candidates=[];
+                        }
                     }
                     if(game is not null)
                     {
@@ -67,10 +95,11 @@ internal sealed class CompanionRuntime
                             {
                                 try{var last=await SaveSource.Read(SavePath(),CancellationToken.None);pending=stats.Push(last);dirty=true;}catch(Exception e)when(e is IOException or JsonException or InvalidOperationException or KeyNotFoundException){SourceUnavailable();Log("final_read_unavailable",e);}
                             }
+                            else if(processes.Length>0)SourceUnavailable(); // Another writer may still own the shared default save; do not guess a final delta.
                             Persist();
                             store.End(sessionId!,"game_exited");return;
                         }
-                        window=LowResourceMode&&lastWindow?.Pid==game.Pid&&lastWindow.StartUtc==game.StartUtc?Native.Follow(lastWindow):Native.AutomaticWindow(game.Exe!);
+                        window=LowResourceMode&&lastWindow?.Pid==game.Pid&&lastWindow.StartUtc==game.StartUtc?Native.Follow(lastWindow):Native.AutomaticWindow(game.Exe!,game);
                         if(window is not null)lastWindow=window;
                         if(Paused){status="paused";afk.Reset();}
                         else
@@ -122,14 +151,14 @@ internal sealed class CompanionRuntime
                 catch(OperationCanceledException)when(stop.IsCancellationRequested){break;}
                 catch(InvalidDataException e)when(e.Message=="identity_changed")
                 {
-                    if(sessionId is not null)store.End(sessionId,"identity_changed");sessionId=null;game=null;stats=new(null,false,false,!synthetic);afk.Reset();epoch++;status="identity_changed";
+                    if(sessionId is not null)store.End(sessionId,"identity_changed");sessionId=null;game=null;selectedSave=null;Interlocked.Exchange(ref requested,null);Volatile.Write(ref activeConnection,null);stats=new(null,false,false,!synthetic);afk.Reset();epoch++;status="identity_changed";
                 }
                 catch(InvalidDataException e)when(e.Message=="unsupported_save_version"){status="unsupported_version";SourceUnavailable();Log(status,e);}
                 catch(InvalidDataException e){status="read_error";SourceUnavailable();Log(status,e);}
                 catch(Microsoft.Data.Sqlite.SqliteException e){status="storage_error";Log(status,e);}
                 catch(Exception e)when(e is IOException or JsonException or InvalidOperationException or KeyNotFoundException or UnauthorizedAccessException or FormatException or System.ComponentModel.Win32Exception)
                 {status="read_error";SourceUnavailable();Log(status,e);}
-                update(new(status,stats.State(),start,window,synthetic){Afk=afk.Current,WaveRulesVerified=waveRulesVerified});
+                update(new(status,stats.State(),start,window,synthetic){Afk=afk.Current,WaveRulesVerified=waveRulesVerified,Candidates=candidates});
                 await Task.Delay(1000,stop.Token);
             }
         }
@@ -144,7 +173,7 @@ internal sealed class CompanionRuntime
             else UpdateRestartSafe=updating;
         }
     }
-    string SavePath()=>string.IsNullOrWhiteSpace(settings.SavePath)?SaveSource.DefaultPath:settings.SavePath;
+    string SavePath()=>selectedSave??(string.IsNullOrWhiteSpace(settings.SavePath)?SaveSource.DefaultPath:settings.SavePath);
     static void Log(string code,Exception error)
     {
         try

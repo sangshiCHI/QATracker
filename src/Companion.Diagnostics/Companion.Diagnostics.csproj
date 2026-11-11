@@ -3,10 +3,12 @@
     <OutputType>WinExe</OutputType>
     <AssemblyName>QATK</AssemblyName>
     <RootNamespace>Companion.Diagnostics</RootNamespace>
-    <Version>0.1.5</Version>
-    <AssemblyVersion>0.1.5.0</AssemblyVersion>
-    <FileVersion>0.1.5.0</FileVersion>
-    <InformationalVersion>0.1.5</InformationalVersion>
+    <Version>0.1.6</Version>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+    <FileVersion>$(Version).0</FileVersion>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <Product>QATK</Product>
+    <Title>QATK · QuestAway Companion</Title>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <UseWPF>true</UseWPF>

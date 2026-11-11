@@ -16,7 +16,7 @@ internal record UpdateRelease(string Version,string Notes,Uri Download,string Sh
 }
 internal record UpdateProgress(long Received,long Total);
 internal record AfkUpdateState(GameWindow Target,GameWindow[] Windows,Box Bounds,bool Hidden);
-internal record UpdateJob(string Target,string TargetSha256,string Payload,string PayloadSha256,int ParentPid,long ParentStartTicks,AfkUpdateState? Afk=null);
+internal record UpdateJob(string Target,string TargetSha256,string Payload,string PayloadSha256,int ParentPid,long ParentStartTicks,AfkUpdateState? Afk=null,GameConnectionChoice? Connection=null);
 
 internal static class SoftwareUpdate
 {
@@ -201,6 +201,7 @@ internal static class SoftwareUpdate
         if(!full.StartsWith(root,StringComparison.OrdinalIgnoreCase)||Path.GetFileName(full)!="update-job.json"||new FileInfo(full).Length>65536)throw new InvalidDataException("invalid_update_resume_location");
         var job=JsonSerializer.Deserialize<UpdateJob>(File.ReadAllText(full))??throw new InvalidDataException("invalid_update_resume");
         if(!string.Equals(Path.GetFullPath(job.Target),Environment.ProcessPath,StringComparison.OrdinalIgnoreCase)||job.Afk is{} afk&&!ValidAfkState(afk))throw new InvalidDataException("invalid_update_resume_target");
+        if(!ValidConnection(job.Connection,job.Afk))throw new InvalidDataException("invalid_update_connection");
         Verify(job.Target,job.PayloadSha256);return job;
     }
     internal static void ConfirmResume(string plan)
@@ -208,14 +209,19 @@ internal static class SoftwareUpdate
         var ready=Path.Combine(Path.GetDirectoryName(plan)!,"resumed");
         File.WriteAllText(ready+".tmp",Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));File.Move(ready+".tmp",ready,false);
     }
-    internal static void LaunchInstaller(string payload,AfkUpdateState? afk=null)
+    internal static bool ValidConnection(GameConnectionChoice? connection,AfkUpdateState? afk=null)=>connection is null||
+        connection.Process is{Pid:>0,StartUtc:not null,Error:null,Exe:not null} p&&p.StartUtc.Value.Kind==DateTimeKind.Utc&&
+        !string.IsNullOrWhiteSpace(p.Exe)&&Path.IsPathFullyQualified(p.Exe)&&!string.IsNullOrWhiteSpace(connection.SavePath)&&Path.IsPathFullyQualified(connection.SavePath)&&
+        (afk is null||p.Pid==afk.Target.Pid&&p.StartUtc==afk.Target.StartUtc&&string.Equals(p.Exe,afk.Target.Exe,StringComparison.OrdinalIgnoreCase));
+    internal static void LaunchInstaller(string payload,AfkUpdateState? afk=null,GameConnectionChoice? connection=null)
     {
         var target=Environment.ProcessPath??throw new IOException("update_target_missing");
         if(!Path.GetFileName(target).Equals("QATK.exe",StringComparison.OrdinalIgnoreCase))throw new IOException("update_target_not_player");
         var directory=Path.GetDirectoryName(payload)!;var runner=Path.Combine(directory,"runner.exe");
         File.Copy(target,runner,false);using var parent=Process.GetCurrentProcess();
         if(afk is not null&&!ValidAfkState(afk))throw new InvalidDataException("invalid_afk_handoff");
-        var job=new UpdateJob(target,Hash(target),payload,Hash(payload),parent.Id,parent.StartTime.ToUniversalTime().Ticks,afk);
+        if(!ValidConnection(connection,afk))throw new InvalidDataException("invalid_update_connection");
+        var job=new UpdateJob(target,Hash(target),payload,Hash(payload),parent.Id,parent.StartTime.ToUniversalTime().Ticks,afk,connection);
         var plan=Path.Combine(directory,"update-job.json");File.WriteAllText(plan,JsonSerializer.Serialize(job,Program.Json));
         var info=new ProcessStartInfo(runner){UseShellExecute=false,CreateNoWindow=true,WindowStyle=ProcessWindowStyle.Hidden};info.ArgumentList.Add("--apply-update");info.ArgumentList.Add(plan);
         using var helper=Process.Start(info)??throw new IOException("update_helper_start_failed");
@@ -239,6 +245,7 @@ internal static class SoftwareUpdate
             var expectedRoot=Path.GetFullPath(UpdateRoot)+Path.DirectorySeparatorChar;
             if(!directory.StartsWith(expectedRoot,StringComparison.OrdinalIgnoreCase)||Path.GetDirectoryName(Environment.ProcessPath)!=directory||Path.GetFileName(plan)!="update-job.json")throw new InvalidDataException("invalid_update_plan_location");
             job=JsonSerializer.Deserialize<UpdateJob>(File.ReadAllText(plan))??throw new InvalidDataException("invalid_update_plan");
+            if(!ValidConnection(job.Connection,job.Afk))throw new InvalidDataException("invalid_update_connection");
             if(!Path.IsPathFullyQualified(job.Target)||Path.GetFileName(job.Target)!="QATK.exe"||Path.GetFullPath(job.Payload)!=Path.Combine(directory,"QATK.new"))throw new InvalidDataException("invalid_update_paths");
             using(var parent=Process.GetProcessById(job.ParentPid))
             {

@@ -43,11 +43,11 @@
       "Fuente de cofres no disponible; recuento desconocido"
     ],
     "app": [
-      "QATK · QuestAway Companion 0.1",
-      "QATK · QuestAway Companion 0.1",
-      "QATK · QuestAway Companion 0.1",
-      "QATK · QuestAway Companion 0.1",
-      "QATK · QuestAway Companion 0.1"
+      "QATK · QuestAway Companion {version}",
+      "QATK · QuestAway Companion {version}",
+      "QATK · QuestAway Companion {version}",
+      "QATK · QuestAway Companion {version}",
+      "QATK · QuestAway Companion {version}"
     ],
     "waiting_game": [
       "等待 QuestAway 启动",

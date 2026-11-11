@@ -22,9 +22,26 @@ internal static class CompanionShell
         var store=new SessionStore(Path.Combine(directory,"sessions.sqlite3"));
         var resume=resumePlan is null?null:SoftwareUpdate.ReadResume(resumePlan);bool resumeAttached=false,resumeConfirmed=false;
         var overlay=new OverlayWindow(settings);RuntimeView? latest=null;var failureCode=0;long lastRendered=-1;Forms.NotifyIcon? statusIcon=null;bool waitAnnounced=false;
+        GameConnectionWindow? connectionWindow=null;bool connectionOffered=false;Action<GameConnectionChoice>? chooseConnection=null;
+        void ChooseConnection()
+        {
+            if(latest?.Status!="multiple_game")return;
+            if(connectionWindow is null)
+            {
+                connectionWindow=new(string.IsNullOrWhiteSpace(settings.SavePath)?SaveSource.DefaultPath:settings.SavePath,choice=>chooseConnection?.Invoke(choice));
+                connectionWindow.Closed+=(_,_)=>connectionWindow=null;
+            }
+            connectionWindow.UpdateCandidates(latest.Candidates);connectionWindow.Show();connectionWindow.Activate();
+        }
         var runtime=new CompanionRuntime(settings,store,view=>app.Dispatcher.Invoke(()=>
         {
             latest=view;overlay.Update(view);
+            if(view.Status=="multiple_game")
+            {
+                connectionWindow?.UpdateCandidates(view.Candidates);
+                if(!connectionOffered){connectionOffered=true;app.Dispatcher.BeginInvoke(new Action(ChooseConnection));}
+            }
+            else connectionWindow?.Close();
             if(resume is not null&&!resumeConfirmed&&view.Status is not ("storage_error" or "read_error" or "identity_changed"))
             {
                 if(resume.Afk is{} afk)
@@ -34,12 +51,12 @@ internal static class CompanionShell
                     if(resumeAttached&&overlay.IsAfk&&Native.Follow(afk.Target) is{Minimized:true})
                     {SoftwareUpdate.ConfirmResume(resumePlan!);resumeConfirmed=true;}
                 }
-                else if(view.State.Previous is not null||view.Status=="waiting_game"){SoftwareUpdate.ConfirmResume(resumePlan!);resumeConfirmed=true;}
+                else if(view.State.Previous is not null||view.Status is "waiting_game" or "multiple_game"){SoftwareUpdate.ConfirmResume(resumePlan!);resumeConfirmed=true;}
             }
             if(statusIcon is not null)
             {
-                var tooltip="QATK 0.1 · "+AppResources.Text(view.Status);statusIcon.Text=tooltip.Length>63?tooltip[..63]:tooltip;
-                if(view.Status=="waiting_game"&&!waitAnnounced){waitAnnounced=true;statusIcon.ShowBalloonTip(3000,"QATK 0.1",AppResources.Text("waiting_game"),Forms.ToolTipIcon.Info);}
+                var tooltip="QATK "+SoftwareUpdate.DisplayVersion+" · "+AppResources.Text(view.Status);statusIcon.Text=tooltip.Length>63?tooltip[..63]:tooltip;
+                if(view.Status=="waiting_game"&&!waitAnnounced){waitAnnounced=true;statusIcon.ShowBalloonTip(3000,"QATK "+SoftwareUpdate.DisplayVersion,AppResources.Text("waiting_game"),Forms.ToolTipIcon.Info);}
             }
             if(dataOverride is not null)
             {
@@ -57,15 +74,19 @@ internal static class CompanionShell
                 }
             }
         }),synthetic);
+        chooseConnection=runtime.SelectGame;
+        if(resume?.Connection is{} connection)runtime.SelectGame(connection);
+        else if(resume?.Afk is{} previousAfk)
+            runtime.SelectGame(new(new(previousAfk.Target.Pid,previousAfk.Target.StartUtc,previousAfk.Target.Exe,previousAfk.Target.Hwnd,null),string.IsNullOrWhiteSpace(settings.SavePath)?SaveSource.DefaultPath:settings.SavePath));
         using var trayIcon=AppIcon.CreateTrayIcon();
-        using var tray=new Forms.NotifyIcon{Icon=trayIcon,Visible=true,Text="QATK · QuestAway Companion 0.1"};
+        using var tray=new Forms.NotifyIcon{Icon=trayIcon,Visible=true,Text=AppResources.Text("app")};
         statusIcon=tray;
         var menu=new Forms.ContextMenuStrip();tray.ContextMenuStrip=menu;
         void Failure(Exception e)
         {
             failureCode=1;
             if(synthetic&&dataOverride is not null)File.AppendAllText(Path.Combine(directory,"test-errors.txt"),e.GetType().Name+" "+e.Message+"\n");
-            else MessageBox.Show(AppResources.Text("error")+" · "+e.GetType().Name,AppResources.Text("app"),MessageBoxButton.OK,MessageBoxImage.Warning);
+            else MessageBox.Show(OperationFailureText(e),AppResources.Text("app"),MessageBoxButton.OK,MessageBoxImage.Warning);
         }
         Window? settingsWindow=null,aboutWindow=null;
         Window? previewToast=null;
@@ -79,7 +100,7 @@ internal static class CompanionShell
             {
                 var release=await SoftwareUpdate.Check(updateLifetime.Token);
                 if(updateLifetime.IsCancellationRequested)return;
-                if(release is null){if(manual)MessageBox.Show("暂无可用的正式更新。","QATK 0.1");return;}
+                if(release is null){if(manual)MessageBox.Show("暂无可用的正式更新。","QATK "+SoftwareUpdate.DisplayVersion);return;}
                 if(updateWindow is not null){if(manual)updateWindow.Activate();return;}
                 if(!manual&&offeredVersion==release.Version)return;offeredVersion=release.Version;
                 var window=NewUpdateWindow(release,out var install,out var title,out var progressBar,out var downloadStatus,out var later);updateWindow=window;
@@ -107,7 +128,7 @@ internal static class CompanionShell
             }
             catch(OperationCanceledException){ }
             catch(Exception e)when(e is IOException or InvalidDataException or UnauthorizedAccessException or System.Net.Http.HttpRequestException or System.Text.Json.JsonException or InvalidOperationException or FormatException or KeyNotFoundException)
-            {if(manual&&!updateLifetime.IsCancellationRequested)MessageBox.Show("暂时无法检查更新，当前版本可继续使用。","QATK 0.1");}
+            {if(manual&&!updateLifetime.IsCancellationRequested)MessageBox.Show("暂时无法检查更新，当前版本可继续使用。","QATK "+SoftwareUpdate.DisplayVersion);}
             finally{checkingUpdate=false;}
         }
         async Task WatchUpdates()
@@ -143,7 +164,7 @@ internal static class CompanionShell
             }
             catch(OperationCanceledException){ }
         }
-        void PreviewPotion(){if(overlay.IsVisible)overlay.PreviewPotionWarning();else MessageBox.Show("连接游戏后可预览产出位置的提醒。","QATK 0.1");}
+        void PreviewPotion(){if(overlay.IsVisible)overlay.PreviewPotionWarning();else MessageBox.Show("连接游戏后可预览产出位置的提醒。","QATK "+SoftwareUpdate.DisplayVersion);}
         void PreviewColossus()
         {
             previewToast?.Close();var now=DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -207,7 +228,7 @@ internal static class CompanionShell
         var trayActions=new Dictionary<string,Action>();
         trayActions["show"]=overlay.ToggleVisible;trayActions["wiki"]=Wiki;trayActions["settings"]=Settings;trayActions["history"]=History;trayActions["exit"]=runtime.Stop;trayActions["about"]=About;
         trayActions["pause"]=()=>{runtime.TogglePause();BuildMenu();};trayActions["interaction"]=()=>{settings.ClickThrough=!settings.ClickThrough;settings.Save();overlay.ApplySettings();};
-        trayActions["update"]=async()=>await CheckUpdates(true);trayActions["afk"]=async()=>{try{await overlay.ToggleAfk();}catch(Exception e){Failure(e);}};
+        trayActions["update"]=async()=>await CheckUpdates(true);trayActions["afk"]=async()=>{if(latest?.Status=="multiple_game"){ChooseConnection();return;}try{await overlay.ToggleAfk();}catch(Exception e){Failure(e);}};
         void BuildMenu()=>FillTrayMenu(menu,key=>{try{trayActions[key]();}catch(Exception e){Failure(e);}},overlay.IsAfk);
         menu.Opening+=(_,_)=>BuildMenu();
         overlay.WikiRequested+=()=>{if(Environment.TickCount64-WikiWindow.LastOutsideDismissalTick>=250)Wiki();};
@@ -233,13 +254,13 @@ internal static class CompanionShell
             catch(Exception e){Failure(e);}
             finally
             {
-                updateLifetime.Cancel();updateWindow?.Close();aboutWindow?.Close();
+                updateLifetime.Cancel();connectionWindow?.Close();updateWindow?.Close();aboutWindow?.Close();
                 await presence.Stop();
                 tray.Visible=false;overlay.Close();
                 if(dataOverride is not null&&latest is not null)Program.Save(directory,"last-view.json",latest);
                 if(pendingUpdate is not null)
                 {
-                    try{if(!runtime.UpdateRestartSafe)throw new IOException("session_save_not_confirmed");SoftwareUpdate.LaunchInstaller(pendingUpdate,pendingAfk);}
+                    try{if(!runtime.UpdateRestartSafe)throw new IOException("session_save_not_confirmed");SoftwareUpdate.LaunchInstaller(pendingUpdate,pendingAfk,runtime.Connection);}
                     catch(Exception e){Failure(e);}
                 }
                 app.Shutdown();
@@ -254,7 +275,16 @@ internal static class CompanionShell
         Forms.ToolStripMenuItem Item(string text,string key){var item=new Forms.ToolStripMenuItem(text){Tag=key};item.Click+=(_,_)=>selected(key);return item;}
         menu.Items.Add(Item("显示 / 隐藏","show"));menu.Items.Add(Item(afk?"恢复游戏":"挂机模式","afk"));menu.Items.Add(Item("设置","settings"));menu.Items.Add(Item("检查更新","update"));menu.Items.Add(Item("关于","about"));menu.Items.Add(Item("退出","exit"));
     }
-    static Window BaseWindow(string title,int width,int height)=>new(){Title="QuestAway Companion 0.1 · "+title,Icon=AppIcon.Image,Width=width,Height=height,
+    internal static string OperationFailureText(Exception error)=>error is InvalidOperationException?error.Message switch
+    {
+        "multiple_game"=>"暂不支持同时统计多个游戏，请从托盘的挂机入口选择一个实例连接。",
+        "game_window_unavailable"=>"尚未找到可连接的游戏窗口，请等待游戏启动完成后重试。",
+        "game_surface_missing"=>"暂时无法定位游戏主体，尚未进入挂机。统计记录不会被清空。",
+        "game_window_changed"=>"游戏窗口已发生变化，已取消本次操作，请稍后重试。",
+        "game_minimize_not_confirmed"=>"游戏窗口未完成最小化，已取消挂机并尝试恢复游戏显示。",
+        _=>AppResources.Text("error")+" · "+error.GetType().Name
+    }:AppResources.Text("error")+" · "+error.GetType().Name;
+    static Window BaseWindow(string title,int width,int height)=>new(){Title="QuestAway Companion "+SoftwareUpdate.DisplayVersion+" · "+title,Icon=AppIcon.Image,Width=width,Height=height,
         Background=new SolidColorBrush(Color.FromRgb(43,29,20)),Foreground=Brushes.Ivory,WindowStartupLocation=WindowStartupLocation.CenterScreen};
     internal static Window NewSettingsWindow()
     {

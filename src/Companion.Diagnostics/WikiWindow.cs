@@ -71,7 +71,7 @@ internal sealed class WikiWindow:Window
     public WikiWindow(bool autoDismiss=true)
     {
         this.autoDismiss=autoDismiss;
-        Title="QATK 0.1 · 中文 Wiki";Icon=AppIcon.Image;Width=SearchWidth;Height=48;WindowStartupLocation=WindowStartupLocation.CenterScreen;
+        Title="QATK "+SoftwareUpdate.DisplayVersion+" · 中文 Wiki";Icon=AppIcon.Image;Width=SearchWidth;Height=48;WindowStartupLocation=WindowStartupLocation.CenterScreen;
         WindowStyle=WindowStyle.None;ResizeMode=ResizeMode.NoResize;AllowsTransparency=true;Background=Brushes.Transparent;ShowInTaskbar=false;Topmost=true;
         FontFamily=new FontFamily("Microsoft YaHei UI");
         var field=new Grid();field.ColumnDefinitions.Add(new(){Width=new GridLength(27)});field.ColumnDefinitions.Add(new());field.ColumnDefinitions.Add(new(){Width=new GridLength(26)});
