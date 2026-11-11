@@ -1,22 +1,22 @@
 {
+  "tag_name": "v0.1.4",
+  "draft": false,
   "assets": [
     {
-      "size": 86944181,
-      "name": "QATK.zip",
-      "executable_digest": "sha256:033b31987cb09e832ba99cafc83f652d03cc9faae1c38763399e2bfa12e1c927",
-      "browser_download_url": "https://gitee.com/sangshichi/QATracker/releases/download/v0.1.3/QATK.zip",
-      "executable_size": 209796000,
-      "digest": "sha256:10206bfba32f75da5950066b9eeb7db47c3858615092a5beda2f6469560204fe"
+      "executable_digest": "sha256:34a77edfe03a5ecfb1d443f890106121b443f6c498c07058e857cc5190f4da3d",
+      "size": 86943490,
+      "digest": "sha256:6f5de12dab7b271f5f050752d7f15d81dd1df7ee4efff28c0d5de308c5952e7c",
+      "browser_download_url": "https://gitee.com/sangshichi/QATracker/releases/download/v0.1.4/QATK.zip",
+      "executable_size": 209808288,
+      "name": "QATK.zip"
     },
     {
       "name": "QATK.exe",
-      "size": 209796000,
-      "digest": "sha256:033b31987cb09e832ba99cafc83f652d03cc9faae1c38763399e2bfa12e1c927",
-      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.3/QATK.exe"
+      "size": 209808288,
+      "digest": "sha256:34a77edfe03a5ecfb1d443f890106121b443f6c498c07058e857cc5190f4da3d",
+      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.4/QATK.exe"
     }
   ],
-  "prerelease": false,
-  "tag_name": "v0.1.3",
-  "draft": false,
-  "body": "QATK 0.1.3 更新测试版\n\n- 修复国内更新提示可能无法显示的问题。\n- 兼容下载服务的正常跳转，仍会核对下载来源和文件完整性。\n- 某个更新来源暂不可用时，会继续检查其他来源。\n- 保留已有统计记录和设置。\n- 同时包含 0.1.2 的自动查找、中文 wiki 章节搜索、品质与家具风格关键词。\n- 图片和资料可离线查看，使用有许可的同类示意图。\n- 保留匿名在线数量和大致地区汇总，不上传游戏账号、存档或装备。\n\n这是更新流程测试版，暂不做正式上线宣传。\n统计随游戏保存刷新，不承诺未验证场景下的完整准确率。\n"
+  "body": "QATK 0.1.4 更新测试版\n\n- 普通和挂机模式均可收到版本号及更新内容。\n- 挂机时可以直接更新，不用先手动恢复游戏。\n- 升级后保留挂机状态、面板位置、大小及收起状态。\n- 保留已有统计记录和设置。\n- 下载失败或取消时继续使用旧版；新版启动失败时回滚并恢复游戏窗口。\n- 保留中文 wiki、自动查找和国内更新下载。\n\n这是更新流程测试版，暂不做正式上线宣传。\n统计随游戏保存刷新，不承诺未验证场景下的完整准确率。\n",
+  "prerelease": false
 }
