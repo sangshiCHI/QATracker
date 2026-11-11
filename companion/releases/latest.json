@@ -1,22 +1,22 @@
 {
+  "tag_name": "v0.1.6",
+  "draft": false,
   "prerelease": false,
+  "body": "QATK 0.1.6\n\n- 检测到多个游戏时，可选择一个实例及对应存档连接。\n- 统计框和挂机模式固定跟随选中的游戏，不随其他窗口切换。\n- 游戏窗口变化、主体暂不可读及挂机失败时，提示更清楚。\n- 改进版本更新时的游戏连接交接，保留原来的统计记录。\n- 主界面、关于、托盘及 EXE 属性统一使用实际版本号。\n- 改进部分启动失败提示；不代表所有电脑的系统启动问题已解决。\n\n装备产出包含开箱、转化和制造，不包含材料、宝石。\n统计和挂机信息随游戏保存刷新，可能稍晚于游戏画面。\n未加入系统内存清理，不会替你关闭游戏或清空统计记录。\r\n",
   "assets": [
     {
-      "executable_digest": "sha256:bba62764da35a61da5b97237014fd5f037fd4e7e75134fb9f8f723406b0c749b",
-      "size": 86949945,
-      "executable_size": 209812384,
-      "browser_download_url": "https://gitee.com/sangshichi/QATracker/releases/download/v0.1.5/QATK.zip",
       "name": "QATK.zip",
-      "digest": "sha256:a5640016bb6b4ad436d698fc58cd552d0e793295f375b326ee5d23d956761125"
+      "size": 86956449,
+      "digest": "sha256:13538d749718c528e6ee86ef83221b27f102c7a086649d136a94b4c86d693ee8",
+      "executable_size": 209841056,
+      "executable_digest": "sha256:efbde8004799c3ffe9a8d6b9786b35f7595af2b2add01621277c69cb33a05aee",
+      "browser_download_url": "https://gitee.com/sangshichi/QATracker/releases/download/v0.1.6/QATK.zip"
     },
     {
       "name": "QATK.exe",
-      "size": 209812384,
-      "digest": "sha256:bba62764da35a61da5b97237014fd5f037fd4e7e75134fb9f8f723406b0c749b",
-      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.5/QATK.exe"
+      "size": 209841056,
+      "digest": "sha256:efbde8004799c3ffe9a8d6b9786b35f7595af2b2add01621277c69cb33a05aee",
+      "browser_download_url": "https://github.com/sangshiCHI/QATracker/releases/download/v0.1.6/QATK.exe"
     }
-  ],
-  "draft": false,
-  "body": "QATK 0.1.5\n\n- 右下角显示当前版本号。\n- 托盘和设置增加「关于」，可查看版本并检查更新。\n- 挂机地图、波次和估算刷图时间合并为一行。\n- 更新时自动保留挂机状态、窗口位置和统计记录。\n- 保留国内更新下载、游戏自动连接和中文离线 wiki。\n\n装备产出包含开箱、转化和制造，不包含材料、宝石。\n统计和挂机信息随游戏保存刷新，可能稍晚于游戏画面。\n",
-  "tag_name": "v0.1.5"
+  ]
 }
