@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>QATK</AssemblyName>
+    <RootNamespace>Companion.Diagnostics</RootNamespace>
+    <Version>0.1.5</Version>
+    <AssemblyVersion>0.1.5.0</AssemblyVersion>
+    <FileVersion>0.1.5.0</FileVersion>
+    <InformationalVersion>0.1.5</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>../../data/afk/qatk.ico</ApplicationIcon>
+    <RestorePackagesPath>../../.packages</RestorePackagesPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="../../config/ui-text.json" LogicalName="ui-text.json" />
+    <EmbeddedResource Include="../../data/afk/labels.json" LogicalName="afk-labels.json" />
+    <EmbeddedResource Include="../../data/afk/qatk.ico" LogicalName="qatk.ico" />
+    <EmbeddedResource Include="../../data/afk/waves.json" LogicalName="afk-waves.json" />
+    <EmbeddedResource Include="../../data/afk/colossus-labels.json" LogicalName="colossus-labels.json" />
+    <EmbeddedResource Include="../../data/afk/face-*.png"><LogicalName>afk.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="../../config/quality-reference.json" LogicalName="quality-reference.json" />
+    <EmbeddedResource Include="../../config/item-names.json" LogicalName="item-names.json" />
+    <EmbeddedResource Include="../../data/wiki-zh.json.gz" LogicalName="wiki-zh.json.gz" />
+    <EmbeddedResource Include="../../data/wiki-images.json" LogicalName="wiki-images.json" />
+    <EmbeddedResource Include="../../data/wiki-images.zip" LogicalName="wiki-images.zip" />
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
+  </ItemGroup>
+</Project>

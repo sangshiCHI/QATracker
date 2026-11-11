@@ -1,0 +1,16 @@
+{
+  "status": "ReferenceOnly_NotLiveVerified",
+  "source": "Existing website public/save-details.js rarity and nativeColors; lib/save-summary.cjs rarity IDs",
+  "gameVersionObserved": "1.0.9",
+  "versionMatchedToLiveAppearance": false,
+  "usedForAutomaticConfirmation": false,
+  "qualities": [
+    {"id":"common","zhHans":"普通","nativeColor":"#b8b8c8","rank":0},
+    {"id":"uncommon","zhHans":"优秀","nativeColor":"#6ee07a","rank":1},
+    {"id":"rare","zhHans":"稀有","nativeColor":"#5aa9ff","rank":2},
+    {"id":"heroic","zhHans":"史诗","nativeColor":"#ff8c3b","rank":3},
+    {"id":"mythic","zhHans":"神话","nativeColor":"#ff5b6e","rank":4},
+    {"id":"ascendant","zhHans":"传说","nativeColor":"#ffd24a","rank":5},
+    {"id":"eternal","zhHans":"永恒","nativeColor":"#c08bff","rank":6}
+  ]
+}

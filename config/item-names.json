@@ -1,0 +1,460 @@
+{
+  "source": "Existing save-catalog-1.0.6 base labels and prebundled site i18n. Display names only; not item origin or current-client name validation.",
+  "names": {
+    "wpn_knight": {
+      "zh-Hans": "血剑",
+      "en": "Blood Sword",
+      "zh-Hant": "血劍",
+      "ja": "血の剣",
+      "es": "espada de sangre"
+    },
+    "wpn_barbarian": {
+      "zh-Hans": "双刃斧",
+      "en": "double-edged ax",
+      "zh-Hant": "雙刃斧",
+      "ja": "両刃の斧",
+      "es": "Hacha de dos filos"
+    },
+    "wpn_paladin": {
+      "zh-Hans": "光明之锤",
+      "en": "Hammer of Light",
+      "zh-Hant": "光之鎚",
+      "ja": "光のハンマー",
+      "es": "martillo de luz"
+    },
+    "wpn_archer": {
+      "zh-Hans": "神射弓",
+      "en": "God Shot Bow",
+      "zh-Hant": "神射擊遊戲",
+      "ja": "ディバインショット",
+      "es": "tiro divino"
+    },
+    "wpn_thief": {
+      "zh-Hans": "蝮蛇之牙",
+      "en": "Tooth of the Viper",
+      "zh-Hant": "蝮",
+      "ja": "ピットバイパーの歯",
+      "es": "Diente de la víbora"
+    },
+    "wpn_engineer": {
+      "zh-Hans": "手持炮",
+      "en": "hand-gun",
+      "zh-Hant": "手槍",
+      "ja": "ハンドヘルド銃",
+      "es": "arma de fuego"
+    },
+    "wpn_mage": {
+      "zh-Hans": "棱镜法杖",
+      "en": "Prism Staff",
+      "zh-Hant": "棱鏡工作人員",
+      "ja": "プリズムスタッフ",
+      "es": "prisma"
+    },
+    "wpn_wizard": {
+      "zh-Hans": "诅咒之镰",
+      "en": "Cursed Scythe",
+      "zh-Hant": "詛咒鐮刀",
+      "ja": "呪いの鎌",
+      "es": "maldición guadaña"
+    },
+    "wpn_priest": {
+      "zh-Hans": "慈悲之书",
+      "en": "Book of Mercy",
+      "zh-Hant": "慈悲之書",
+      "ja": "慈悲の本",
+      "es": "libro de misericordia"
+    },
+    "wpn_monk": {
+      "zh-Hans": "斗士护手",
+      "en": "Fighter Guard",
+      "zh-Hant": "戰鬥衛兵",
+      "ja": "戦士の警備員",
+      "es": "guardias guerreros"
+    },
+    "off_knight": {
+      "zh-Hans": "壁垒之盾",
+      "en": "Shield of the barrier",
+      "zh-Hant": "屏障盾",
+      "ja": "バリアシールド",
+      "es": "escudo de barrera"
+    },
+    "off_barbarian": {
+      "zh-Hans": "双子手斧",
+      "en": "Gemini Hand Ax",
+      "zh-Hant": "雙子手斧",
+      "ja": "ジェミニハンドアックス",
+      "es": "Hacha de mano de Géminis"
+    },
+    "off_paladin": {
+      "zh-Hans": "圣化神盾",
+      "en": "Holy Aegis",
+      "zh-Hant": "神盾",
+      "ja": "イージック シールド",
+      "es": "escudo aégico"
+    },
+    "off_archer": {
+      "zh-Hans": "倒刺箭囊",
+      "en": "barb",
+      "zh-Hant": "倒鉤",
+      "ja": "かかり",
+      "es": "lengüeta"
+    },
+    "off_thief": {
+      "zh-Hans": "暗影匕首",
+      "en": "Shadow Dagger",
+      "zh-Hant": "影子匕首",
+      "ja": "シャドーダガー",
+      "es": "Daga de sombra"
+    },
+    "off_engineer": {
+      "zh-Hans": "电击扳手",
+      "en": "Electric shock wrench",
+      "zh-Hant": "電擊扳手",
+      "ja": "電気ショックレンチ",
+      "es": "Llave de choque eléctrico"
+    },
+    "off_mage": {
+      "zh-Hans": "聚焦法球",
+      "en": "Focused Ball",
+      "zh-Hant": "焦點球體",
+      "ja": "フォーカス ボール",
+      "es": "bola enfocada"
+    },
+    "off_wizard": {
+      "zh-Hans": "诅咒提灯",
+      "en": "Cursed lantern",
+      "zh-Hant": "詛咒燈籠",
+      "ja": "呪われたランタン",
+      "es": "Linterna maldita"
+    },
+    "off_priest": {
+      "zh-Hans": "朝圣者十字",
+      "en": "Pilgrim Cross",
+      "zh-Hant": "十字架",
+      "ja": "ピルグリムクロス",
+      "es": "cruz de los peregrinos"
+    },
+    "off_monk": {
+      "zh-Hans": "迎风护手",
+      "en": "Wind Guard",
+      "zh-Hant": "Windward Handguard",
+      "ja": "風ガード",
+      "es": "guardia de viento"
+    },
+    "jwl_necklace": {
+      "zh-Hans": "心石吊坠",
+      "en": "Heart stone pendant",
+      "zh-Hant": "心石吊墜",
+      "ja": "ハートストーンペンダント",
+      "es": "Colgante de piedra de corazón"
+    },
+    "jwl_necklace_crit": {
+      "zh-Hans": "獠牙项链",
+      "en": "fangs",
+      "zh-Hant": "尖牙項鍊",
+      "ja": "牙のネックレス",
+      "es": "collar de colmillos"
+    },
+    "jwl_necklace_luck": {
+      "zh-Hans": "镀金币吊坠",
+      "en": "Gold-plated pendant",
+      "zh-Hant": "鍍金",
+      "ja": "金メッキのペンダント",
+      "es": "colgante chapado en oro"
+    },
+    "jwl_necklace_heavy": {
+      "zh-Hans": "壁垒徽章",
+      "en": "Barrier badge",
+      "zh-Hant": "屏障徽章",
+      "ja": "バリア バッジ",
+      "es": "insignia de barrera"
+    },
+    "jwl_necklace_med": {
+      "zh-Hans": "静默项绳",
+      "en": "Silent neckline",
+      "zh-Hant": "靜音領口",
+      "ja": "サイレントネックライン",
+      "es": "Escote silencioso"
+    },
+    "jwl_necklace_light": {
+      "zh-Hans": "水晶聚焦",
+      "en": "Crystal Focus",
+      "zh-Hant": "水晶焦點",
+      "ja": "クリスタル フォーカス",
+      "es": "Enfoque de cristal"
+    },
+    "jwl_ring": {
+      "zh-Hans": "精准之戒",
+      "en": "Precision Ring",
+      "zh-Hant": "精確環",
+      "ja": "精密リング",
+      "es": "anillo de precisión"
+    },
+    "jwl_ring_guard": {
+      "zh-Hans": "哨兵印戒",
+      "en": "Sentineling Ring",
+      "zh-Hant": "哨兵戒指",
+      "ja": "センチネルリング",
+      "es": "aro centinela"
+    },
+    "jwl_ring_vital": {
+      "zh-Hans": "呼吸指环",
+      "en": "Breathing Rings",
+      "zh-Hant": "呼吸環",
+      "ja": "呼吸リング",
+      "es": "anillo de respiración"
+    },
+    "jwl_ring_heavy": {
+      "zh-Hans": "铁砧戒指",
+      "en": "Anvil Ring",
+      "zh-Hant": "砧環",
+      "ja": "アンビルリング",
+      "es": "Anillo de yunque"
+    },
+    "jwl_ring_med": {
+      "zh-Hans": "轻羽指环",
+      "en": "Light Feather Ring",
+      "zh-Hant": "淺羽環",
+      "ja": "ライトフェザーリング",
+      "es": "anillo de plumas ligeras"
+    },
+    "jwl_ring_light": {
+      "zh-Hans": "火花印戒",
+      "en": "Sparkling ring",
+      "zh-Hant": "閃閃發光的戒指",
+      "ja": "スパークリング",
+      "es": "aro"
+    },
+    "jwl_earrings": {
+      "zh-Hans": "商人指环",
+      "en": "Merchant Ring",
+      "zh-Hant": "商家戒指",
+      "ja": "ビジネスマンリング",
+      "es": "Anillo de empresario"
+    },
+    "jwl_earrings_vig": {
+      "zh-Hans": "守望碎片",
+      "en": "Watch Fragments",
+      "zh-Hant": "手錶碎片",
+      "ja": "フラグメントを見てください",
+      "es": "ver fragmentos"
+    },
+    "jwl_earrings_crit": {
+      "zh-Hans": "獠牙耳环",
+      "en": "fangs",
+      "zh-Hant": "尖牙耳環",
+      "ja": "牙のイヤリング",
+      "es": "pendientes de colmillos"
+    },
+    "jwl_earrings_heavy": {
+      "zh-Hans": "锻纹耳环",
+      "en": "Forged earrings",
+      "zh-Hant": "偽造耳環",
+      "ja": "鍛造イヤリング",
+      "es": "Pendientes forjados"
+    },
+    "jwl_earrings_med": {
+      "zh-Hans": "细丝耳坠",
+      "en": "Filter Earrings",
+      "zh-Hant": "薄耳環",
+      "ja": "フィラメント イヤリング",
+      "es": "Pendientes de filamento"
+    },
+    "jwl_earrings_light": {
+      "zh-Hans": "嗡鸣水滴",
+      "en": "Womb Water Drops",
+      "zh-Hant": "嗡嗡聲的水滴",
+      "ja": "ブーンという水滴",
+      "es": "Gotas de agua zumbando"
+    },
+    "jwl_bracelet": {
+      "zh-Hans": "交叉缠带",
+      "en": "Cross straps",
+      "zh-Hant": "交叉帶",
+      "ja": "クロスストラップ",
+      "es": "Correa cruzada"
+    },
+    "jwl_bracelet_vital": {
+      "zh-Hans": "草药手环",
+      "en": "Herbal bracelet",
+      "zh-Hant": "草藥手鍊",
+      "ja": "ハーブブレスレット",
+      "es": "pulsera de hierbas"
+    },
+    "jwl_bracelet_crit": {
+      "zh-Hans": "铆钉护腕",
+      "en": "rivet bracer",
+      "zh-Hant": "鉚釘護腕",
+      "ja": "リベットブレーサー",
+      "es": "Brazaletes de remache"
+    },
+    "jwl_bracelet_heavy": {
+      "zh-Hans": "格挡护腕",
+      "en": "Finger wrist",
+      "zh-Hant": "塊手腕",
+      "ja": "海峡手首",
+      "es": "muñeca estrecha"
+    },
+    "jwl_bracelet_med": {
+      "zh-Hans": "编织手绳",
+      "en": "Braided bracelets",
+      "zh-Hant": "編織手鍊",
+      "ja": "編み込みブレスレット",
+      "es": "pulsera trenzada"
+    },
+    "jwl_bracelet_light": {
+      "zh-Hans": "奥术手镯",
+      "en": "Arcane Bracelet",
+      "zh-Hant": "奧術手鍊",
+      "ja": "アルケイン ブレスレット",
+      "es": "pulsera arcana"
+    },
+    "arm_heavy_armor": {
+      "zh-Hans": "堡垒胸甲",
+      "en": "Fortress Breastplate",
+      "zh-Hant": "堡壘",
+      "ja": "要塞の胸当て",
+      "es": "Fortaleza"
+    },
+    "arm_heavy_helmet": {
+      "zh-Hans": "哨兵重盔",
+      "en": "Sentinel heavy helmet",
+      "zh-Hant": "哨兵頭盔",
+      "ja": "センチネル ヘルメット",
+      "es": "centinela"
+    },
+    "arm_heavy_legs": {
+      "zh-Hans": "守卫护腿",
+      "en": "Guard leg",
+      "zh-Hant": "守衛腿",
+      "ja": "レッグガードをガード",
+      "es": "Protege la guardia de piernas"
+    },
+    "arm_heavy_boots": {
+      "zh-Hans": "城垛铁靴",
+      "en": "Castles",
+      "zh-Hant": "Wardstice Iron Boots",
+      "ja": "城",
+      "es": "Botas de Hierro Chengduo"
+    },
+    "arm_heavy_gloves": {
+      "zh-Hans": "碾压护手",
+      "en": "crushing hand guard",
+      "zh-Hant": "滾動護手",
+      "ja": "クラッシャー",
+      "es": "trituradora"
+    },
+    "arm_heavy_belt": {
+      "zh-Hans": "泰坦腰带",
+      "en": "Titan belt",
+      "zh-Hant": "泰坦帶",
+      "ja": "タイタンベルト",
+      "es": "Cinturón de titán"
+    },
+    "arm_heavy": {
+      "zh-Hans": "堡垒胸甲",
+      "en": "Fortress Breastplate",
+      "zh-Hant": "堡壘",
+      "ja": "要塞の胸当て",
+      "es": "Fortaleza"
+    },
+    "arm_medium_armor": {
+      "zh-Hans": "潜行者皮甲",
+      "en": "Stalker Leather Armor",
+      "zh-Hant": "跟蹤者的皮甲",
+      "ja": "ストーカーの革の鎧",
+      "es": "Armadura de cuero de acosador"
+    },
+    "arm_medium_helmet": {
+      "zh-Hans": "猎人头盔",
+      "en": "hunter helmet",
+      "zh-Hant": "獵人頭盔",
+      "ja": "ハンターヘルメット",
+      "es": "Casco de cazador"
+    },
+    "arm_medium_legs": {
+      "zh-Hans": "游侠护腿",
+      "en": "Ranger leg guard",
+      "zh-Hant": "遊俠緊身褲",
+      "ja": "レンジャーレギンス",
+      "es": "Leggings de guardabosques"
+    },
+    "arm_medium_boots": {
+      "zh-Hans": "风行靴",
+      "en": "Wind Boot",
+      "zh-Hant": "風靴",
+      "ja": "人気のブーツ",
+      "es": "Botas populares"
+    },
+    "arm_medium_gloves": {
+      "zh-Hans": "快枪手套",
+      "en": "Quick gun glove",
+      "zh-Hant": "快速槍手套",
+      "ja": "クイックガングローブ",
+      "es": "Guantes de pistola rápida"
+    },
+    "arm_medium_belt": {
+      "zh-Hans": "斥候腰带",
+      "en": "scout belt",
+      "zh-Hant": "偵察帶",
+      "ja": "スカウトベルト",
+      "es": "Cinturón de exploración"
+    },
+    "arm_medium": {
+      "zh-Hans": "潜行者皮甲",
+      "en": "Stalker Leather Armor",
+      "zh-Hant": "跟蹤者的皮甲",
+      "ja": "ストーカーの革の鎧",
+      "es": "Armadura de cuero de acosador"
+    },
+    "arm_light_armor": {
+      "zh-Hans": "贤者长袍",
+      "en": "sage's gown",
+      "zh-Hant": "聖人的禮服",
+      "ja": "セージのガウン",
+      "es": "bata de sabio"
+    },
+    "arm_light_helmet": {
+      "zh-Hans": "秘法头环",
+      "en": "Secret Dharma Head Ring",
+      "zh-Hant": "秘密方法頭環",
+      "ja": "難解なヘッドリング",
+      "es": "Anillo de cabeza esotérico"
+    },
+    "arm_light_legs": {
+      "zh-Hans": "奥术护腿",
+      "en": "Arcane Leggings",
+      "zh-Hant": "奧術腿",
+      "ja": "アルケインのレギンス",
+      "es": "polainas arcanas"
+    },
+    "arm_light_boots": {
+      "zh-Hans": "旅人靴",
+      "en": "Traveler boots",
+      "zh-Hant": "乘客靴",
+      "ja": "トラベラーブーツ",
+      "es": "Botas de viaje"
+    },
+    "arm_light_gloves": {
+      "zh-Hans": "导能手套",
+      "en": "guide gloves",
+      "zh-Hant": "導引手套",
+      "ja": "ガイド手袋",
+      "es": "Guantes de guía"
+    },
+    "arm_light_belt": {
+      "zh-Hans": "专注腰带",
+      "en": "Focus on the belt",
+      "zh-Hant": "專注於皮帶",
+      "ja": "ベルトに集中してください",
+      "es": "Centrarse en el cinturón"
+    },
+    "arm_light": {
+      "zh-Hans": "贤者长袍",
+      "en": "sage's gown",
+      "zh-Hant": "聖人的禮服",
+      "ja": "セージのガウン",
+      "es": "bata de sabio"
+    }
+  }
+}

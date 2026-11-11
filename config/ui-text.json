@@ -1,0 +1,536 @@
+{
+  "languages": [
+    "zh-Hans",
+    "en",
+    "zh-Hant",
+    "ja",
+    "es"
+  ],
+  "text": {
+    "ordinary": [
+      "普通开箱",
+      "Ordinary chest",
+      "普通開箱",
+      "通常開封",
+      "Cofre normal"
+    ],
+    "colossus": [
+      "巨像",
+      "Colossus",
+      "巨像",
+      "巨像",
+      "Coloso"
+    ],
+    "ordinary_scope_history": [
+      "刷图普通开箱（不含巨像）",
+      "Ordinary farming chests (no colossus)",
+      "刷圖普通開箱（不含巨像）",
+      "通常の周回宝箱（巨像を除く）",
+      "Cofres normales (sin colosos)"
+    ],
+    "legacy_counter": [
+      "旧混合计数（含转化）",
+      "Legacy mixed count (incl. transmutation)",
+      "舊混合計數（含轉化）",
+      "旧混合集計（変換含む）",
+      "Recuento mixto anterior (incl. transmutación)"
+    ],
+    "activity_unavailable": [
+      "开箱来源不可用/待基线，装备数未知",
+      "Chest source unavailable/baseline pending; unknown",
+      "開箱來源不可用/待基線，裝備數未知",
+      "開封元不明/基準待ち・装備数不明",
+      "Fuente de cofres no disponible; recuento desconocido"
+    ],
+    "app": [
+      "QATK · QuestAway Companion 0.1",
+      "QATK · QuestAway Companion 0.1",
+      "QATK · QuestAway Companion 0.1",
+      "QATK · QuestAway Companion 0.1",
+      "QATK · QuestAway Companion 0.1"
+    ],
+    "waiting_game": [
+      "等待 QuestAway 启动",
+      "Waiting for QuestAway",
+      "等待 QuestAway 啟動",
+      "QuestAway の起動待ち",
+      "Esperando a QuestAway"
+    ],
+    "waiting_save": [
+      "等待本次游戏保存",
+      "Waiting for a current save",
+      "等待本次遊戲儲存",
+      "今回のセーブを待機中",
+      "Esperando un guardado actual"
+    ],
+    "baseline": [
+      "已连接，从此刻开始统计",
+      "Connected; tracking starts now",
+      "已連接，從此刻開始統計",
+      "接続済み・ここから計測",
+      "Conectado; empieza el seguimiento"
+    ],
+    "tracking": [
+      "存档统计中",
+      "Tracking local saves",
+      "存檔統計中",
+      "セーブを計測中",
+      "Registrando guardados locales"
+    ],
+    "paused": [
+      "已暂停，期间收益不计入",
+      "Paused; gains excluded",
+      "已暫停，期間收益不計入",
+      "一時停止・停止中の獲得分は除外",
+      "En pausa; ganancias excluidas"
+    ],
+    "read_error": [
+      "存档暂不可读，保留已有统计",
+      "Save unavailable; totals retained",
+      "存檔暫不可讀，保留已有統計",
+      "セーブ読取不可・集計は保持",
+      "Guardado no disponible; totales conservados"
+    ],
+    "unsupported_version": [
+      "不支持此存档格式，已停止累计",
+      "Unsupported save format; counting stopped",
+      "不支援此存檔格式，已停止累計",
+      "非対応のセーブ形式・集計停止",
+      "Formato no compatible; recuento detenido"
+    ],
+    "waiting_window": [
+      "等待游戏窗口，继续读取存档",
+      "Waiting for window; save tracking continues",
+      "等待遊戲視窗，繼續讀取存檔",
+      "ウィンドウ待機中・計測は継続",
+      "Esperando ventana; sigue el registro"
+    ],
+    "multiple_game": [
+      "多个游戏进程，暂停自动连接",
+      "Multiple game processes; connection paused",
+      "多個遊戲程序，暫停自動連接",
+      "ゲームが複数起動中・接続停止",
+      "Varios procesos; conexión en pausa"
+    ],
+    "counter_reset": [
+      "计数回退，已分段；存在观测缺口",
+      "Counters reset; observation gap",
+      "計數回退，已分段；存在觀測缺口",
+      "カウンター初期化・観測に欠落あり",
+      "Contadores reiniciados; hay un intervalo sin datos"
+    ],
+    "identity_changed": [
+      "存档角色身份变化，已结束旧会话",
+      "Save identity changed; old session ended",
+      "存檔角色身分變化，已結束舊工作階段",
+      "セーブの対象変更・前の記録を終了",
+      "Identidad cambiada; sesión anterior cerrada"
+    ],
+    "old_save": [
+      "忽略旧保存，不重复计数",
+      "Ignoring old save; no double counting",
+      "忽略舊儲存，不重複計數",
+      "古いセーブを無視・重複集計なし",
+      "Guardado antiguo ignorado; sin duplicados"
+    ],
+    "conflicting_save": [
+      "保存时间冲突，等待新保存",
+      "Conflicting timestamp; awaiting new save",
+      "儲存時間衝突，等待新儲存",
+      "保存時刻が競合・次の保存を待機",
+      "Marca de tiempo en conflicto; esperando"
+    ],
+    "waiting_save_update": [
+      "等待游戏下一次保存",
+      "Waiting for next game save",
+      "等待遊戲下一次儲存",
+      "次のセーブを待機中",
+      "Esperando el próximo guardado"
+    ],
+    "storage_error": [
+      "本机保存失败，暂停采集并重试",
+      "Storage failed; collection paused for retry",
+      "本機儲存失敗，暫停採集並重試",
+      "記録失敗・収集を停止して再試行",
+      "Fallo de almacenamiento; reintentando"
+    ],
+    "stale_save": [
+      "存档较久未更新，数值暂未刷新",
+      "Save is stale; totals not refreshed",
+      "存檔較久未更新，數值暫未更新",
+      "セーブ未更新・数値は最終保存時点",
+      "Guardado desactualizado; totales sin refrescar"
+    ],
+    "partial": [
+      "存在观测缺口",
+      "Observation gap",
+      "存在觀測缺口",
+      "観測の欠落あり",
+      "Intervalo sin datos"
+    ],
+    "chests": [
+      "获得宝箱",
+      "Chests obtained",
+      "獲得寶箱",
+      "獲得宝箱",
+      "Cofres obtenidos"
+    ],
+    "equipment": [
+      "本次装备产出合计",
+      "Equipment produced · session",
+      "本次裝備產出合計",
+      "今回の装備産出合計",
+      "Equipo producido · sesión"
+    ],
+    "loot_scope": [
+      "仅刷图普通开箱；来源缺失标不完整",
+      "Ordinary farming chests only; source gaps marked incomplete",
+      "僅刷圖普通開箱；來源缺失標不完整",
+      "通常の周回宝箱のみ・情報欠落は不完全表示",
+      "Solo cofres normales; las interrupciones se indican"
+    ],
+    "duration": [
+      "监测时长",
+      "Observed time",
+      "監測時間",
+      "計測時間",
+      "Tiempo observado"
+    ],
+    "game_time": [
+      "游戏运行时长",
+      "Game uptime",
+      "遊戲執行時間",
+      "ゲームの起動時間",
+      "Tiempo del juego"
+    ],
+    "quality": [
+      "装备品质",
+      "Equipment quality",
+      "裝備品質",
+      "装備品質",
+      "Calidad del equipo"
+    ],
+    "recent": [
+      "最近开箱装备",
+      "Recent chest equipment",
+      "最近開箱裝備",
+      "最近の開封装備",
+      "Equipo reciente de cofres"
+    ],
+    "observed_recent": [
+      "仅为新出现明细，可能来自购买或制作",
+      "New appearances may include purchases/crafting",
+      "僅為新出現明細，可能來自購買或製作",
+      "購入・制作の品も含む可能性あり",
+      "Puede incluir compras o fabricación"
+    ],
+    "none": [
+      "暂无可保留的明细",
+      "No retained details yet",
+      "暫無可保留的明細",
+      "確認できる明細なし",
+      "Sin detalles conservados aún"
+    ],
+    "save_time": [
+      "最近保存",
+      "Last save",
+      "最近儲存",
+      "最終保存",
+      "Último guardado"
+    ],
+    "save_lag": [
+      "秒前",
+      "s ago",
+      "秒前",
+      "秒前",
+      "s atrás"
+    ],
+    "show": [
+      "显示/隐藏悬浮窗",
+      "Show/hide overlay",
+      "顯示/隱藏懸浮視窗",
+      "表示切替",
+      "Mostrar/ocultar"
+    ],
+    "interaction": [
+      "切换穿透/交互",
+      "Toggle click-through",
+      "切換穿透/互動",
+      "クリック透過切替",
+      "Alternar clics"
+    ],
+    "settings": [
+      "设置",
+      "Settings",
+      "設定",
+      "設定",
+      "Ajustes"
+    ],
+    "history": [
+      "历史记录",
+      "History",
+      "歷史紀錄",
+      "履歴",
+      "Historial"
+    ],
+    "export": [
+      "导出 JSON",
+      "Export JSON",
+      "匯出 JSON",
+      "JSON 書き出し",
+      "Exportar JSON"
+    ],
+    "clear": [
+      "清除已结束的历史",
+      "Clear ended sessions",
+      "清除已結束的歷史",
+      "終了した履歴を削除",
+      "Borrar sesiones finalizadas"
+    ],
+    "confirm_clear": [
+      "确定清除已结束的历史？当前会话保留。",
+      "Clear ended sessions? Current session is retained.",
+      "確定清除已結束的歷史？保留目前工作階段。",
+      "終了済みの履歴を削除しますか？現在の記録は保持します。",
+      "¿Borrar sesiones finalizadas? Se conserva la actual."
+    ],
+    "exit": [
+      "保存并退出",
+      "Save and exit",
+      "儲存並結束",
+      "保存して終了",
+      "Guardar y salir"
+    ],
+    "pause": [
+      "暂停统计",
+      "Pause tracking",
+      "暫停統計",
+      "計測を停止",
+      "Pausar registro"
+    ],
+    "resume": [
+      "恢复统计",
+      "Resume tracking",
+      "恢復統計",
+      "計測を再開",
+      "Reanudar registro"
+    ],
+    "opacity": [
+      "透明度",
+      "Opacity",
+      "透明度",
+      "不透明度",
+      "Opacidad"
+    ],
+    "scale": [
+      "缩放",
+      "Scale",
+      "縮放",
+      "拡大率",
+      "Escala"
+    ],
+    "language": [
+      "语言",
+      "Language",
+      "語言",
+      "言語",
+      "Idioma"
+    ],
+    "savebutton": [
+      "保存设置",
+      "Save settings",
+      "儲存設定",
+      "設定を保存",
+      "Guardar ajustes"
+    ],
+    "gamepath": [
+      "游戏 EXE（留空自动识别）",
+      "Game EXE (blank = automatic)",
+      "遊戲 EXE（留空自動辨識）",
+      "ゲーム EXE（空欄で自動）",
+      "EXE del juego (vacío = automático)"
+    ],
+    "savepath": [
+      "存档路径（留空使用本机默认）",
+      "Save path (blank = local default)",
+      "存檔路徑（留空使用本機預設）",
+      "セーブ先（空欄で既定値）",
+      "Ruta de guardado (vacío = predeterminada)"
+    ],
+    "source": [
+      "存档品质增量：含开箱／转化／制造",
+      "Native counters: chests + transmutation + crafting",
+      "存檔品質增量：含開箱／轉化／製造",
+      "セーブ集計：開封・変換・製作を含む",
+      "Contadores: cofres + transmutación + fabricación"
+    ],
+    "lost": [
+      "满仓损失",
+      "Lost to capacity",
+      "滿倉損失",
+      "容量超過で損失",
+      "Perdidos por capacidad"
+    ],
+    "generated": [
+      "生成宝箱",
+      "Generated chests",
+      "生成寶箱",
+      "生成宝箱",
+      "Cofres generados"
+    ],
+    "forged": [
+      "锻造计数（排除）",
+      "Forged (excluded)",
+      "鍛造計數（排除）",
+      "鍛造数（除外）",
+      "Forjados (excluidos)"
+    ],
+    "rate": [
+      "装备/分钟",
+      "Items/min",
+      "裝備/分鐘",
+      "装備/分",
+      "Objetos/min"
+    ],
+    "details": [
+      "展开",
+      "Expand",
+      "展開",
+      "展開",
+      "Ampliar"
+    ],
+    "collapse": [
+      "折叠",
+      "Collapse",
+      "摺疊",
+      "折り畳み",
+      "Contraer"
+    ],
+    "error": [
+      "操作未完成",
+      "Operation failed",
+      "操作未完成",
+      "操作に失敗",
+      "Operación fallida"
+    ],
+    "synthetic": [
+      "模拟测试 · 非真实收益",
+      "Synthetic test · not real loot",
+      "模擬測試 · 非真實收益",
+      "模擬テスト・実際の獲得ではありません",
+      "Prueba sintética; no ganancias reales"
+    ],
+    "unknown": [
+      "未知",
+      "Unknown",
+      "未知",
+      "不明",
+      "Desconocido"
+    ],
+    "common": [
+      "普通",
+      "Common",
+      "普通",
+      "コモン",
+      "Común"
+    ],
+    "uncommon": [
+      "优秀",
+      "Uncommon",
+      "優秀",
+      "アンコモン",
+      "Poco común"
+    ],
+    "rare": [
+      "稀有",
+      "Rare",
+      "稀有",
+      "レア",
+      "Raro"
+    ],
+    "heroic": [
+      "史诗",
+      "Heroic",
+      "史詩",
+      "ヒロイック",
+      "Heroico"
+    ],
+    "mythic": [
+      "神话",
+      "Mythic",
+      "神話",
+      "ミシック",
+      "Mítico"
+    ],
+    "ascendant": [
+      "传说",
+      "Ascendant",
+      "傳說",
+      "アセンダント",
+      "Ascendente"
+    ],
+    "eternal": [
+      "永恒",
+      "Eternal",
+      "永恆",
+      "エターナル",
+      "Eterno"
+    ],
+    "opened_total": [
+      "累计已开启",
+      "Opened · lifetime",
+      "累計已開啟",
+      "累計開封数",
+      "Abiertos · total"
+    ],
+    "opened_session": [
+      "本次已开启",
+      "Opened · session",
+      "本次已開啟",
+      "今回の開封数",
+      "Abiertos · sesión"
+    ],
+    "opened_rebaseline": [
+      "开启计数存在缺口／已重建基线",
+      "Opening count incomplete / baseline reset",
+      "開啟計數存在缺口／已重建基線",
+      "開封数は不完全／基準を再設定",
+      "Aperturas incompletas / nueva base"
+    ],
+    "opened_legacy": [
+      "旧记录无开启基线，无法还原",
+      "No opening baseline in old history",
+      "舊記錄無開啟基線，無法還原",
+      "旧記録に開封基準なし・復元不可",
+      "Historial sin base de aperturas"
+    ],
+    "historical_qualities_unknown": [
+      "历史纯开箱品质无法从混合计数还原",
+      "Historical chest-only qualities cannot be recovered from mixed counts",
+      "歷史純開箱品質無法從混合計數還原",
+      "混合集計から過去の開封品質は復元不可",
+      "No se recuperan calidades históricas de recuentos mixtos"
+    ],
+    "save_rollback": [
+      "存档回退，已重新建立基线",
+      "Save rolled back; baseline reset",
+      "存檔回退，已重新建立基線",
+      "セーブ巻戻り・基準を再設定",
+      "Guardado revertido; nueva base"
+    ],
+    "chest_equipment": [
+      "本次开箱装备合计",
+      "Chest equipment · session",
+      "本次開箱裝備合計",
+      "今回の開封装備合計",
+      "Equipo de cofres · sesión"
+    ],
+    "production_scope_history": [
+      "装备产出（含开箱／转化／制造）",
+      "Equipment produced (chests/transmutation/crafting)",
+      "裝備產出（含開箱／轉化／製造）",
+      "装備産出（開封・変換・製作含む）",
+      "Equipo producido (cofres/transmutación/fabricación)"
+    ]
+  }
+}

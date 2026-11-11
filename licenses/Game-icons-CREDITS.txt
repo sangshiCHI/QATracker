@@ -1,0 +1,5 @@
+Game-icons.net replacement illustrations
+Icons made by caro-asercion, cathelineau, darkzaitzev, delapouite, irongamer, lorc, skoll
+License: CC BY 3.0 https://creativecommons.org/licenses/by/3.0/
+Source: https://github.com/game-icons/icons/tree/82d948812bfe3f269ef8f731dcdb07b08160edc4
+Changes: QATK brown/gold framing, tint, size and level labels. Images are replacement illustrations, not original game artwork.

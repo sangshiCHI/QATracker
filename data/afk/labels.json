@@ -1,0 +1,39 @@
+{
+  "GameVersion": "1.0.9",
+  "Classes": {
+    "knight": "战士",
+    "mage": "法师",
+    "priest": "治疗师",
+    "archer": "弓手",
+    "thief": "刺客",
+    "engineer": "工程师",
+    "barbarian": "野蛮人",
+    "monk": "武僧",
+    "wizard": "女巫",
+    "paladin": "圣骑士"
+  },
+  "Potions": {
+    "vigor": "活力药水",
+    "guard": "守护药水",
+    "fortune": "抗性药水",
+    "might": "蛮力药水",
+    "haste": "急速药水",
+    "plunder": "穿透药水",
+    "greed": "强欲药水",
+    "insight": "洞察药水",
+    "swiftness": "疾行药水"
+  },
+  "Source": {
+    "ClassNames": "public/class-data.js",
+    "ClassSha256": "2e73c10f23dfcb10df2934afc7f7b5af31a84ec53d1af5136fde8fea3d4f7186",
+    "WikiSha256": "27a206b497d4063e723485ec79420dbf594ed2b0d4abdc7c390fe130241c6e79",
+    "Faces": "existing dist/assets/face-*.png, local private only",
+    "Difficulties": "existing public/live-tracker.js mapName",
+    "DifficultiesSha256": "06bbf6529280f6c404439b492d9294683cf8203b75fdbfb41411799ce141a9b2"
+  },
+  "Difficulties": {
+    "0": "帷幕",
+    "1": "裂口",
+    "2": "深渊"
+  }
+}
